@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3a0f1f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex">
+<title>Para você ❤️</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23c9566c' d='M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --vinho:#3a0f1f; --vinho2:#5c1a32; --rosa:#c9566c; --rosa-claro:#f3d3d6; --blush:#fbeaea;
+  --creme:#fdf7f2; --papel:#fffaf5; --ouro:#c9a36a; --ouro-claro:#e8d3ac; --tinta:#43242e; --suave:#8a6b73;
+  --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --script:"Great Vibes", "Snell Roundhand", cursive;
+  --sans:"Jost", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --seguro-topo:env(safe-area-inset-top,0px); --seguro-base:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--creme);color:var(--tinta);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.travado{overflow:hidden;height:100vh}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* ---------- corações flutuantes ---------- */
+#ceu{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#conteudo{position:relative;z-index:1}
+body.travado #ceu{z-index:45}
+.flutua{position:absolute;bottom:-40px;opacity:0;animation:subir linear forwards}
+.flutua svg{width:100%;height:100%;display:block}
+@keyframes subir{
+  0%{transform:translate(0,0) rotate(0) scale(.6);opacity:0}
+  10%{opacity:var(--op,.5)}
+  50%{transform:translate(var(--dx,20px),-55vh) rotate(var(--rot,15deg)) scale(1)}
+  90%{opacity:var(--op,.5)}
+  100%{transform:translate(calc(var(--dx,20px) * -1),-112vh) rotate(calc(var(--rot,15deg) * -1)) scale(.9);opacity:0}
+}
+.estouro{position:fixed;pointer-events:none;z-index:60;width:22px;height:22px;animation:estourar 1.3s cubic-bezier(.2,.7,.3,1) forwards}
+.estouro svg{width:100%;height:100%}
+@keyframes estourar{
+  0%{transform:translate(-50%,-50%) scale(.2);opacity:1}
+  100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(var(--s,1)) rotate(var(--r,0deg));opacity:0}
+}
+
+/* ---------- carregando ---------- */
+#carregando{position:fixed;inset:0;z-index:100;background:var(--vinho);display:flex;align-items:center;justify-content:center;transition:opacity .8s ease}
+#carregando.some{opacity:0;pointer-events:none}
+.batida{width:54px;height:54px;animation:batida 1.2s ease-in-out infinite}
+.batida svg{width:100%;height:100%}
+@keyframes batida{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.12)}}
+
+/* ---------- abertura ---------- */
+#abertura{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:calc(40px + var(--seguro-topo)) 28px calc(40px + var(--seguro-base));
+  background:radial-gradient(120% 80% at 50% 10%, #7a2443 0%, var(--vinho2) 35%, var(--vinho) 75%, #24070f 100%);color:#fff;
+  transition:opacity 1.1s ease, transform 1.1s ease}
+#abertura.fora{opacity:0;transform:scale(1.06);pointer-events:none}
+#abertura::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(2px 2px at 20% 30%,rgba(255,255,255,.55),transparent 60%),
+  radial-gradient(1.5px 1.5px at 75% 20%,rgba(255,255,255,.5),transparent 60%),
+  radial-gradient(1.5px 1.5px at 60% 70%,rgba(255,255,255,.35),transparent 60%),
+  radial-gradient(2px 2px at 30% 80%,rgba(255,255,255,.35),transparent 60%),
+  radial-gradient(1px 1px at 88% 60%,rgba(255,255,255,.5),transparent 60%),
+  radial-gradient(1px 1px at 12% 55%,rgba(255,255,255,.45),transparent 60%);
+  animation:cintilar 5s ease-in-out infinite alternate;pointer-events:none}
+@keyframes cintilar{from{opacity:.5}to{opacity:1}}
+.abertura-pre{font-family:var(--script);font-size:30px;color:var(--ouro-claro);opacity:0;animation:aparecer 1.4s .3s ease forwards;min-height:1em}
+.abertura-titulo{font-family:var(--serif);font-weight:500;font-size:clamp(38px,11vw,64px);line-height:1.08;margin:10px 0 18px;letter-spacing:.2px;
+  opacity:0;animation:aparecer 1.6s .7s ease forwards;text-wrap:balance}
+.abertura-sub{font-size:16.5px;line-height:1.6;max-width:340px;color:rgba(255,235,238,.85);margin:0 0 42px;opacity:0;animation:aparecer 1.6s 1.2s ease forwards}
+.linha-ouro{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--ouro),transparent);margin:0 auto 22px;opacity:0;animation:aparecer 1.4s 1s ease forwards}
+@keyframes aparecer{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.botao-comecar{position:relative;font-family:var(--sans);font-weight:400;font-size:17px;letter-spacing:.6px;color:var(--vinho);
+  background:linear-gradient(180deg,#fff, #fbe7ea);padding:18px 34px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 -2px 0 rgba(201,86,108,.15);
+  display:inline-flex;align-items:center;gap:10px;opacity:0;animation:aparecer 1.4s 1.7s ease forwards}
+.botao-comecar::after{content:"";position:absolute;inset:-6px;border-radius:999px;border:1px solid rgba(255,255,255,.5);animation:onda 2.4s 3s ease-out infinite;opacity:0}
+@keyframes onda{0%{transform:scale(.95);opacity:.8}100%{transform:scale(1.25);opacity:0}}
+.botao-comecar svg{width:18px;height:18px}
+.botao-comecar:active{transform:scale(.97)}
+
+/* ---------- conteúdo ---------- */
+#conteudo{opacity:0;transition:opacity 1.2s ease .3s}
+#conteudo.visivel{opacity:1}
+.secao{position:relative;padding:84px 22px;max-width:760px;margin:0 auto;text-align:center}
+.secao + .secao{padding-top:40px}
+.enfeite{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--rosa);margin-bottom:14px}
+.enfeite::before,.enfeite::after{content:"";width:46px;height:1px;background:linear-gradient(90deg,transparent,var(--ouro))}
+.enfeite::after{transform:scaleX(-1)}
+.enfeite svg{width:16px;height:16px}
+.titulo{font-family:var(--serif);font-weight:500;font-size:clamp(32px,8.5vw,46px);line-height:1.12;margin:0 0 12px;color:var(--vinho);text-wrap:balance}
+.subtitulo{font-size:16px;line-height:1.65;color:var(--suave);margin:0 auto 36px;max-width:440px;white-space:pre-line}
+.revela{opacity:0;transform:translateY(26px);transition:opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1)}
+.revela.ok{opacity:1;transform:none}
+
+.topo-conteudo{padding-top:calc(70px + var(--seguro-topo));background:linear-gradient(180deg,var(--blush),var(--creme))}
+.ola{font-family:var(--script);font-size:46px;color:var(--rosa);line-height:1.1;margin:0 0 6px}
+.contador{display:inline-flex;flex-direction:column;align-items:center;margin-top:18px;padding:18px 30px;border-radius:22px;background:var(--papel);
+  box-shadow:0 12px 34px rgba(110,31,53,.10);border:1px solid rgba(201,163,106,.35)}
+.contador small{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--suave)}
+.contador b{font-family:var(--serif);font-weight:600;font-size:48px;color:var(--vinho);line-height:1.1}
+.contador span{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--rosa)}
+.seta{margin:40px auto 0;width:26px;height:40px;border:1.5px solid var(--ouro);border-radius:14px;position:relative;opacity:.8}
+.seta::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;border-radius:2px;background:var(--rosa);transform:translateX(-50%);animation:rolar 1.8s infinite}
+@keyframes rolar{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+
+/* ---------- galeria ---------- */
+.galeria{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px;align-items:start}
+.polaroide{background:#fff;padding:9px 9px 0;border-radius:4px;box-shadow:0 10px 26px rgba(67,36,46,.14),0 2px 6px rgba(67,36,46,.08);
+  transform:rotate(var(--g,0deg));transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s;text-align:center}
+.polaroide:nth-child(odd){--g:-2.2deg}.polaroide:nth-child(even){--g:1.8deg;margin-top:22px}.polaroide:nth-child(3n){--g:-1deg}
+.polaroide:active{transform:rotate(0) scale(.98)}
+.polaroide .foto{aspect-ratio:4/5;overflow:hidden;background:var(--blush);border-radius:2px}
+.polaroide img{width:100%;height:100%;object-fit:cover;transition:opacity .6s}
+.polaroide p{font-family:var(--script);font-size:21px;line-height:1.15;color:var(--tinta);margin:0;padding:10px 4px 13px;min-height:16px;word-break:break-word}
+.polaroide.sem-legenda p{padding:6px 0 4px}
+.galeria.uma{grid-template-columns:1fr;max-width:340px;margin:0 auto}
+.galeria.uma .polaroide{margin-top:0}
+
+#caixaluz{position:fixed;inset:0;z-index:70;background:rgba(28,6,13,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(60px + var(--seguro-topo)) 14px calc(30px + var(--seguro-base));opacity:0;pointer-events:none;transition:opacity .35s}
+#caixaluz.aberta{opacity:1;pointer-events:auto}
+#caixaluz img{max-height:72vh;max-width:100%;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5);transition:opacity .25s, transform .25s}
+#caixaluz p{font-family:var(--script);color:#fff;font-size:28px;margin:18px 10px 0;text-align:center;min-height:1em}
+#caixaluz .contagem{font-size:13px;letter-spacing:2px;color:rgba(255,255,255,.55);margin-top:8px}
+.cl-btn{position:absolute;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:26px;line-height:48px;text-align:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.cl-fechar{top:calc(12px + var(--seguro-topo));right:14px}
+.cl-ant{left:10px;top:50%;margin-top:-24px}.cl-prox{right:10px;top:50%;margin-top:-24px}
+
+/* ---------- motivos ---------- */
+.monte{position:relative;width:min(330px,86vw);height:400px;margin:0 auto;perspective:1400px}
+.monte .atras{position:absolute;inset:0;border-radius:24px;background:var(--papel);border:1px solid rgba(201,163,106,.3);box-shadow:0 8px 24px rgba(110,31,53,.08)}
+.monte .atras.a1{transform:rotate(-4deg) translateY(8px)}.monte .atras.a2{transform:rotate(3.5deg) translateY(4px)}
+.cartao{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.3,.7,.2,1);cursor:pointer}
+.cartao.virado{transform:rotateY(180deg)}
+.cartao.sai{animation:sair .55s ease-in forwards}
+.cartao.entra{animation:entrar .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes sair{to{transform:rotateY(180deg) translateX(-140%) rotate(14deg);opacity:0}}
+@keyframes entrar{from{transform:translateY(30px) scale(.94);opacity:0}to{transform:none;opacity:1}}
+.face{position:absolute;inset:0;border-radius:24px;-webkit-backface-visibility:hidden;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:34px 28px;overflow:hidden}
+.frente{background:linear-gradient(155deg,#8a2a4a 0%,var(--vinho2) 50%,var(--vinho) 100%);color:#fff;box-shadow:0 22px 44px rgba(58,15,31,.32)}
+.frente::before{content:"";position:absolute;inset:12px;border:1px solid rgba(232,211,172,.45);border-radius:16px;pointer-events:none}
+.frente .num-rot{font-size:12px;letter-spacing:3.5px;text-transform:uppercase;color:var(--ouro-claro)}
+.frente .num{font-family:var(--serif);font-size:96px;font-weight:500;line-height:1;margin:6px 0 12px}
+.frente .cor{width:40px;height:40px;animation:batida 1.6s ease-in-out infinite;margin-bottom:22px}
+.frente .toque{font-family:var(--serif);font-style:italic;font-size:19px;color:rgba(255,235,238,.85)}
+.verso{transform:rotateY(180deg);background:var(--papel);border:1px solid rgba(201,163,106,.45);box-shadow:0 22px 44px rgba(110,31,53,.16)}
+.verso::before{content:"";position:absolute;inset:12px;border:1px solid rgba(201,163,106,.3);border-radius:16px;pointer-events:none}
+.verso .num-rot{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--rosa);margin-bottom:18px}
+.verso .texto{font-family:var(--serif);font-size:clamp(23px,6.4vw,28px);line-height:1.35;color:var(--vinho);white-space:pre-line;word-break:break-word}
+.verso .texto.longo{font-size:20px}
+.verso .aspas{font-family:var(--serif);font-size:70px;line-height:.4;color:var(--ouro);opacity:.6;height:28px}
+.controles{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:30px}
+.progresso{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--suave)}
+.barra{width:min(280px,76vw);height:4px;border-radius:4px;background:var(--rosa-claro);overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rosa),var(--ouro));border-radius:4px;transition:width .6s ease}
+.botao{font-weight:400;font-size:16.5px;letter-spacing:.4px;padding:16px 30px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s, opacity .4s}
+.botao:active{transform:scale(.96)}
+.botao svg{width:17px;height:17px}
+.botao-cheio{background:linear-gradient(135deg,var(--rosa),#a8425a);color:#fff;box-shadow:0 10px 24px rgba(201,86,108,.35)}
+.botao-linha{border:1px solid var(--ouro);color:var(--vinho);background:var(--papel)}
+.escondido{display:none !important}
+.invisivel{opacity:0;pointer-events:none}
+.coracoezinhos{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:330px;margin:28px auto 0}
+.coracoezinhos button{width:24px;height:24px;padding:0;opacity:.28;transition:opacity .4s, transform .3s}
+.coracoezinhos button svg{width:100%;height:100%}
+.coracoezinhos button.visto{opacity:1}
+.coracoezinhos button.atual{transform:scale(1.35);opacity:1}
+.parabens{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--rosa);margin:6px 0 0}
+
+/* ---------- música ---------- */
+.disco-cartao{background:linear-gradient(160deg,var(--vinho2),var(--vinho));border-radius:28px;padding:38px 24px 30px;color:#fff;box-shadow:0 24px 50px rgba(58,15,31,.28);max-width:420px;margin:0 auto;position:relative;overflow:hidden}
+.disco-cartao::before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,86,108,.35),transparent 70%);top:-120px;right:-100px}
+.disco{width:170px;height:170px;border-radius:50%;margin:0 auto 26px;position:relative;
+  background:radial-gradient(circle,var(--rosa) 0 17%,#1b0a10 17.5% 19%,#2b1219 19.5% 100%);
+  box-shadow:0 14px 34px rgba(0,0,0,.45);animation:girar 8s linear infinite;animation-play-state:paused}
+.disco::before{content:"";position:absolute;inset:8%;border-radius:50%;background:repeating-radial-gradient(circle,rgba(255,255,255,.05) 0 1px,transparent 1px 4px)}
+.disco::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:var(--creme)}
+.disco.tocando{animation-play-state:running}
+@keyframes girar{to{transform:rotate(360deg)}}
+.disco-cartao h3{font-family:var(--serif);font-weight:500;font-size:32px;margin:0 0 8px;position:relative}
+.disco-cartao p{color:rgba(255,235,238,.8);line-height:1.6;margin:0 0 26px;position:relative;white-space:pre-line}
+.disco-cartao .botao-cheio{background:#fff;color:var(--vinho);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.spotify-caixa{margin-top:22px;border-radius:14px;overflow:hidden;position:relative}
+.spotify-caixa iframe{width:100%;height:152px;border:0;display:block;border-radius:14px}
+.abrir-spotify{display:inline-block;margin-top:14px;color:var(--ouro-claro);font-size:14px;letter-spacing:.4px;position:relative}
+
+/* ---------- carta ---------- */
+.envelope-area{position:relative;min-height:300px;display:flex;align-items:center;justify-content:center}
+.envelope{position:relative;width:min(310px,82vw);aspect-ratio:1.5;cursor:pointer;transition:transform .6s, opacity .8s}
+.envelope:active{transform:scale(.97)}
+.envelope .corpo{position:absolute;inset:0;background:linear-gradient(160deg,#f6dcdc,#ecc4c8);border-radius:10px;box-shadow:0 20px 40px rgba(110,31,53,.2)}
+.envelope .bolso{position:absolute;inset:0;border-radius:10px;overflow:hidden}
+.envelope .bolso::before{content:"";position:absolute;left:0;right:0;bottom:0;height:100%;background:linear-gradient(160deg,#f1cfd2,#e6b7bd);clip-path:polygon(0 100%,0 30%,50% 68%,100% 30%,100% 100%)}
+.envelope .aba{position:absolute;left:0;right:0;top:0;height:62%;background:linear-gradient(180deg,#e9b9bf,#dda6ad);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .8s cubic-bezier(.4,.1,.2,1);z-index:3;border-radius:10px 10px 0 0}
+.envelope .selo{position:absolute;left:50%;top:62%;width:54px;height:54px;margin:-27px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d8697f,#9c2f4a);z-index:4;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(110,31,53,.35);transition:opacity .4s}
+.envelope .selo svg{width:24px;height:24px}
+.envelope.aberto .aba{transform:rotateX(180deg);z-index:1}
+.envelope.aberto .selo{opacity:0}
+.envelope.some{opacity:0;transform:translateY(30px) scale(.9);pointer-events:none}
+.envelope-dica{position:absolute;bottom:-46px;left:0;right:0;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--rosa);animation:piscar 2.2s ease-in-out infinite}
+@keyframes piscar{50%{opacity:.45}}
+.carta{background:var(--papel);border-radius:6px;padding:44px 28px 40px;text-align:left;box-shadow:0 24px 50px rgba(110,31,53,.14);position:relative;
+  background-image:linear-gradient(transparent 0 31px, rgba(201,86,108,.07) 31px 32px);background-size:100% 32px;border-top:4px solid var(--rosa);
+  opacity:0;transform:translateY(40px);transition:opacity 1.2s ease, transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.carta.ok{opacity:1;transform:none}
+.carta .par{font-family:var(--serif);font-size:21px;line-height:1.55;color:var(--tinta);margin:0 0 16px;opacity:0;transform:translateY(10px);transition:opacity 1.1s ease, transform 1.1s ease;white-space:pre-line;word-break:break-word}
+.carta .par.ok{opacity:1;transform:none}
+.carta .assinatura{text-align:right;margin-top:26px;opacity:0;transition:opacity 1.4s ease}
+.carta .assinatura.ok{opacity:1}
+.carta .assinatura small{display:block;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--suave)}
+.carta .assinatura b{font-family:var(--script);font-weight:400;font-size:44px;color:var(--rosa);line-height:1.2}
+
+/* ---------- encerramento ---------- */
+.fim{padding-bottom:calc(110px + var(--seguro-base))}
+.coracao-grande{width:110px;height:110px;margin:0 auto 22px;animation:batida 1.6s ease-in-out infinite;filter:drop-shadow(0 12px 22px rgba(201,86,108,.4))}
+.coracao-grande svg{width:100%;height:100%}
+.fim-texto{font-family:var(--script);font-size:clamp(40px,11vw,58px);line-height:1.15;color:var(--vinho);margin:0 0 34px;text-wrap:balance}
+.rodape{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--suave);opacity:.7;margin-top:46px}
+
+.previa-selo{position:fixed;top:calc(10px + var(--seguro-topo));left:50%;transform:translateX(-50%);z-index:90;background:#1d1d1f;color:#fff;font-size:12.5px;letter-spacing:.5px;padding:8px 14px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.25);pointer-events:none;opacity:.92}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.2s !important}
+}
+@media (min-width:700px){
+  .galeria{grid-template-columns:1fr 1fr 1fr}
+  .polaroide:nth-child(even){margin-top:0}.polaroide:nth-child(3n+2){margin-top:26px}
+}
+</style>
+</head>
+<body class="travado">
+
+<div id="carregando"><div class="batida"><svg viewBox="0 0 32 32"><path fill="#e7889a" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></div></div>
+<div id="ceu" aria-hidden="true"></div>
+
+<section id="abertura">
+  <div class="abertura-pre" id="a-pre"></div>
+  <h1 class="abertura-titulo" id="a-titulo"></h1>
+  <div class="linha-ouro"></div>
+  <p class="abertura-sub" id="a-sub"></p>
+  <button class="botao-comecar" id="a-botao"><svg viewBox="0 0 32 32"><path fill="#c9566c" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg><span id="a-botao-txt"></span></button>
+</section>
+
+<main id="conteudo" aria-hidden="true">
+  <section class="secao topo-conteudo" id="s-topo">
+    <p class="ola revela" id="t-ola"></p>
+    <div class="contador revela escondido" id="t-contador"><small id="t-cont-txt"></small><b id="t-dias">0</b><span>dias</span></div>
+    <div class="seta revela"></div>
+  </section>
+
+  <section class="secao" id="s-galeria">
+    <div class="enfeite revela"><svg viewBox="0 0 32 32"><path fill="currentColor" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></div>
+    <h2 class="titulo revela" id="g-titulo"></h2>
+    <p class="subtitulo revela" id="g-sub"></p>
+    <div class="galeria" id="g-grade"></div>
+  </section>
+
+  <section class="secao" id="s-motivos">
+    <div class="enfeite revela"><svg viewBox="0 0 32 32"><path fill="currentColor" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></div>
+    <h2 class="titulo revela" id="m-titulo"></h2>
+    <p class="subtitulo revela" id="m-sub"></p>
+    <div class="revela">
+      <div class="monte" id="m-monte">
+        <div class="atras a1"></div><div class="atras a2"></div>
+        <div class="cartao" id="m-cartao" role="button" aria-label="Revelar razão">
+          <div class="face frente">
+            <div class="num-rot">Razão</div>
+            <div class="num" id="m-num-f">1</div>
+            <div class="cor"><svg viewBox="0 0 32 32"><path fill="#e7889a" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></div>
+            <div class="toque">toque para revelar</div>
+          </div>
+          <div class="face verso">
+            <div class="num-rot" id="m-num-v">Razão nº 1</div>
+            <div class="aspas">“</div>
+            <div class="texto" id="m-texto"></div>
+          </div>
+        </div>
+      </div>
+      <div class="controles">
+        <div class="progresso" id="m-prog"></div>
+        <div class="barra"><i id="m-barra"></i></div>
+        <button class="botao botao-cheio invisivel" id="m-prox"><span id="m-prox-txt">Próxima razão</span><svg viewBox="0 0 32 32"><path fill="currentColor" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></button>
+        <p class="parabens escondido" id="m-parabens">Você descobriu todas as razões… e ainda existem infinitas outras ❤</p>
+      </div>
+      <div class="coracoezinhos" id="m-mapa" aria-label="Escolher razão"></div>
+    </div>
+  </section>
+
+  <section class="secao" id="s-musica">
+    <div class="disco-cartao revela">
+      <div class="disco" id="mu-disco"></div>
+      <h3 id="mu-titulo"></h3>
+      <p id="mu-sub"></p>
+      <button class="botao botao-cheio" id="mu-botao"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg><span id="mu-botao-txt"></span></button>
+      <div class="spotify-caixa escondido" id="mu-caixa"></div>
+      <a class="abrir-spotify escondido" id="mu-abrir" target="_blank" rel="noopener">Abrir no Spotify ↗</a>
+    </div>
+  </section>
+
+  <section class="secao" id="s-carta">
+    <div class="enfeite revela"><svg viewBox="0 0 32 32"><path fill="currentColor" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></div>
+    <h2 class="titulo revela" id="c-titulo"></h2>
+    <div class="envelope-area revela" id="c-area">
+      <div class="envelope" id="c-envelope" role="button" aria-label="Abrir carta">
+        <div class="corpo"></div><div class="aba"></div><div class="bolso"></div>
+        <div class="selo"><svg viewBox="0 0 32 32"><path fill="#fff" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></div>
+        <div class="envelope-dica" id="c-dica"></div>
+      </div>
+    </div>
+    <article class="carta escondido" id="c-carta">
+      <div id="c-texto"></div>
+      <div class="assinatura" id="c-assin"><small id="c-assin-txt"></small><b id="c-nome"></b></div>
+    </article>
+  </section>
+
+  <section class="secao fim" id="s-fim">
+    <div class="coracao-grande revela"><svg viewBox="0 0 32 32"><defs><linearGradient id="gc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7889a"/><stop offset="1" stop-color="#a8344f"/></linearGradient></defs><path fill="url(#gc)" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg></div>
+    <p class="fim-texto revela" id="f-texto"></p>
+    <button class="botao botao-linha revela" id="f-botao"><svg viewBox="0 0 32 32"><path fill="#c9566c" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg><span id="f-botao-txt"></span></button>
+    <div class="rodape revela" id="f-rodape"></div>
+  </section>
+</main>
+
+<div id="caixaluz" aria-hidden="true">
+  <button class="cl-btn cl-fechar" id="cl-fechar" aria-label="Fechar">×</button>
+  <button class="cl-btn cl-ant" id="cl-ant" aria-label="Anterior">‹</button>
+  <button class="cl-btn cl-prox" id="cl-prox" aria-label="Próxima">›</button>
+  <img id="cl-img" alt="">
+  <p id="cl-leg"></p>
+  <div class="contagem" id="cl-cont"></div>
+</div>
+
+<script src="comum.js"></script>
+<script>
+(function () {
+  "use strict";
+  var P = window.Presente;
+  var CORACAO = '<svg viewBox="0 0 32 32"><path fill="COR" d="M16 29s-12-7.4-12-16A6.6 6.6 0 0 1 16 8a6.6 6.6 0 0 1 12 5c0 8.6-12 16-12 16z"/></svg>';
+  var CORES = ["#e7889a", "#c9566c", "#f3b6c0", "#d99a9f", "#c9a36a"];
+  var calmo = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var params = new URLSearchParams(location.search);
+  var previa = params.get("previa") === "1";
+  var cfg = P.lerConfig();
+  var D = null;
+
+  function txt(id, valor) { var el = $(id); if (el) el.textContent = valor || ""; }
+  function coracaoSvg(cor) { return CORACAO.replace("COR", cor); }
+
+  /* ---------- carregar dados ---------- */
+  function carregar() {
+    if (previa) {
+      return Promise.resolve(P.ler(P.CHAVE_PREVIA));
+    }
+    if (!cfg) return Promise.resolve(P.ler(P.CHAVE_CACHE));
+    var headers = { apikey: cfg.key };
+    if (!/^sb_/.test(cfg.key)) headers.Authorization = "Bearer " + cfg.key;
+    var controle = window.AbortController ? new AbortController() : null;
+    var tempo = setTimeout(function () { if (controle) controle.abort(); }, 10000);
+    return fetch(cfg.url + "/rest/v1/presente?id=eq.1&select=dados", { headers: headers, cache: "no-store", signal: controle ? controle.signal : undefined })
+      .then(function (r) { if (!r.ok) throw new Error("http " + r.status); return r.json(); })
+      .then(function (linhas) {
+        clearTimeout(tempo);
+        var dados = linhas && linhas[0] ? linhas[0].dados : null;
+        if (dados) P.guardar(P.CHAVE_CACHE, dados);
+        return dados;
+      })
+      .catch(function () { clearTimeout(tempo); return P.ler(P.CHAVE_CACHE); });
+  }
+
+  /* ---------- montar a página ---------- */
+  function montar() {
+    if (previa) {
+      var selo = document.createElement("div");
+      selo.className = "previa-selo";
+      selo.textContent = "👀 Pré-visualização — ainda não salva";
+      document.body.appendChild(selo);
+    }
+    if (D.nomeDele) document.title = "Para " + D.nomeDele + " ❤️";
+    txt("a-pre", D.nomeDele ? "Para " + D.nomeDele : "uma surpresa");
+    txt("a-titulo", D.inicioTitulo);
+    txt("a-sub", D.inicioSubtitulo);
+    txt("a-botao-txt", D.inicioBotao);
+
+    txt("t-ola", D.nomeDele ? "Oi, " + D.nomeDele : "Oi, meu amor");
+    var dias = P.diasJuntos(D.dataInicio);
+    if (dias !== null) { $("t-contador").classList.remove("escondido"); txt("t-cont-txt", D.contadorTexto); $("t-dias").dataset.alvo = dias; }
+
+    montarGaleria();
+    montarMotivos();
+    montarMusica();
+    montarCarta();
+
+    txt("f-texto", D.encerramento);
+    txt("f-botao-txt", D.botaoMaisAmor);
+    txt("f-rodape", (D.nomeDela && D.nomeDele) ? D.nomeDela + " & " + D.nomeDele : "feito com amor");
+  }
+
+  /* galeria */
+  var fotos = [];
+  function montarGaleria() {
+    fotos = (D.fotos || []).filter(function (f) { return f && f.caminho; });
+    if (!fotos.length) { $("s-galeria").classList.add("escondido"); return; }
+    txt("g-titulo", D.galeriaTitulo); txt("g-sub", D.galeriaSubtitulo);
+    var grade = $("g-grade");
+    if (fotos.length === 1) grade.classList.add("uma");
+    fotos.forEach(function (f, i) {
+      var card = document.createElement("button");
+      card.className = "polaroide revela" + (f.legenda ? "" : " sem-legenda");
+      var moldura = document.createElement("div"); moldura.className = "foto";
+      var img = document.createElement("img");
+      img.loading = i < 4 ? "eager" : "lazy"; img.alt = f.legenda || "Nossa foto";
+      img.style.opacity = 0; img.onload = function () { img.style.opacity = 1; };
+      img.src = P.urlFoto(cfg, f.caminho);
+      moldura.appendChild(img); card.appendChild(moldura);
+      var leg = document.createElement("p"); leg.textContent = f.legenda || ""; card.appendChild(leg);
+      card.addEventListener("click", function () { abrirLuz(i); });
+      grade.appendChild(card);
+    });
+  }
+  var luzAtual = 0;
+  function abrirLuz(i) {
+    luzAtual = (i + fotos.length) % fotos.length;
+    var f = fotos[luzAtual];
+    $("cl-img").src = P.urlFoto(cfg, f.caminho);
+    txt("cl-leg", f.legenda || "");
+    txt("cl-cont", fotos.length > 1 ? (luzAtual + 1) + " / " + fotos.length : "");
+    $("cl-ant").classList.toggle("escondido", fotos.length < 2);
+    $("cl-prox").classList.toggle("escondido", fotos.length < 2);
+    $("caixaluz").classList.add("aberta");
+    document.body.style.overflow = "hidden";
+  }
+  function fecharLuz() { $("caixaluz").classList.remove("aberta"); document.body.style.overflow = ""; }
+  $("cl-fechar").onclick = fecharLuz;
+  $("cl-ant").onclick = function (e) { e.stopPropagation(); abrirLuz(luzAtual - 1); };
+  $("cl-prox").onclick = function (e) { e.stopPropagation(); abrirLuz(luzAtual + 1); };
+  $("caixaluz").addEventListener("click", function (e) { if (e.target.id === "caixaluz") fecharLuz(); });
+  (function () {
+    var x0 = null;
+    $("caixaluz").addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    $("caixaluz").addEventListener("touchend", function (e) {
+      if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50 && fotos.length > 1) abrirLuz(luzAtual + (dx < 0 ? 1 : -1));
+    });
+  })();
+
+  /* motivos */
+  var motivos = [], mAtual = 0, vistos = {};
+  function montarMotivos() {
+    motivos = (D.motivos || []).map(function (m) { return String(m || "").trim(); }).filter(Boolean);
+    if (!motivos.length) { $("s-motivos").classList.add("escondido"); return; }
+    txt("m-titulo", D.motivosTitulo); txt("m-sub", D.motivosSubtitulo);
+    var mapa = $("m-mapa");
+    motivos.forEach(function (_, i) {
+      var b = document.createElement("button");
+      b.innerHTML = coracaoSvg("#c9566c");
+      b.setAttribute("aria-label", "Razão " + (i + 1));
+      b.addEventListener("click", function () { irPara(i); });
+      mapa.appendChild(b);
+    });
+    mostrarMotivo(0, false);
+  }
+  function atualizarMapa() {
+    var botoes = $("m-mapa").children;
+    for (var i = 0; i < botoes.length; i++) {
+      botoes[i].classList.toggle("visto", !!vistos[i]);
+      botoes[i].classList.toggle("atual", i === mAtual);
+    }
+    var n = Object.keys(vistos).length;
+    txt("m-prog", n + " de " + motivos.length + " reveladas");
+    $("m-barra").style.width = (n / motivos.length * 100) + "%";
+  }
+  function mostrarMotivo(i, animar) {
+    mAtual = i;
+    var c = $("m-cartao");
+    c.classList.remove("virado", "sai");
+    if (animar) { c.classList.remove("entra"); void c.offsetWidth; c.classList.add("entra"); }
+    txt("m-num-f", i + 1);
+    txt("m-num-v", "Razão nº " + (i + 1));
+    var t = motivos[i];
+    txt("m-texto", t);
+    $("m-texto").classList.toggle("longo", t.length > 110);
+    $("m-prox").classList.add("invisivel");
+    atualizarMapa();
+  }
+  function revelar() {
+    var c = $("m-cartao");
+    if (c.classList.contains("virado")) return;
+    c.classList.add("virado");
+    vistos[mAtual] = true;
+    atualizarMapa();
+    var r = c.getBoundingClientRect();
+    setTimeout(function () { estourar(r.left + r.width / 2, r.top + r.height / 3, 10); }, 450);
+    var todos = Object.keys(vistos).length === motivos.length;
+    setTimeout(function () {
+      if (todos) {
+        $("m-parabens").classList.remove("escondido");
+        txt("m-prox-txt", "Ver desde o começo");
+      } else {
+        txt("m-prox-txt", "Próxima razão");
+      }
+      $("m-prox").classList.remove("invisivel");
+    }, 700);
+  }
+  function proximoIndice() {
+    for (var k = 1; k <= motivos.length; k++) {
+      var j = (mAtual + k) % motivos.length;
+      if (!vistos[j]) return j;
+    }
+    return (mAtual + 1) % motivos.length;
+  }
+  function irPara(i) {
+    var c = $("m-cartao");
+    if (i === mAtual && !c.classList.contains("virado")) return;
+    if (c.classList.contains("virado")) {
+      c.classList.add("sai");
+      setTimeout(function () { mostrarMotivo(i, true); }, 500);
+    } else mostrarMotivo(i, true);
+  }
+  $("m-cartao").addEventListener("click", revelar);
+  $("m-prox").addEventListener("click", function () {
+    if (!$("m-parabens").classList.contains("escondido")) {
+      vistos = {}; $("m-parabens").classList.add("escondido"); irPara(0); return;
+    }
+    irPara(proximoIndice());
+  });
+
+  /* música */
+  function montarMusica() {
+    var link = String(D.musicaLink || "").trim();
+    if (!link) { $("s-musica").classList.add("escondido"); return; }
+    txt("mu-titulo", D.musicaTitulo); txt("mu-sub", D.musicaSubtitulo); txt("mu-botao-txt", D.musicaBotao);
+    var embed = P.spotifyEmbed(link);
+    var abrir = $("mu-abrir"); abrir.href = link;
+    $("mu-botao").addEventListener("click", function () {
+      $("mu-disco").classList.add("tocando");
+      var r = this.getBoundingClientRect(); estourar(r.left + r.width / 2, r.top, 8);
+      if (!embed) { window.open(link, "_blank"); return; }
+      var caixa = $("mu-caixa");
+      if (!caixa.firstChild) {
+        var f = document.createElement("iframe");
+        f.src = embed;
+        f.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+        f.loading = "lazy";
+        f.title = "Nossa música no Spotify";
+        caixa.appendChild(f);
+      }
+      caixa.classList.remove("escondido");
+      abrir.classList.remove("escondido");
+      this.classList.add("escondido");
+    });
+  }
+
+  /* carta */
+  function montarCarta() {
+    txt("c-titulo", D.finalTitulo);
+    txt("c-dica", D.finalEnvelope);
+    var area = $("c-texto");
+    String(D.finalMensagem || "").split(/\n\s*\n/).forEach(function (bloco) {
+      if (!bloco.trim()) return;
+      var p = document.createElement("p"); p.className = "par"; p.textContent = bloco.trim(); area.appendChild(p);
+    });
+    txt("c-assin-txt", D.finalAssinatura);
+    txt("c-nome", D.nomeDela || "");
+    $("c-envelope").addEventListener("click", abrirCarta);
+  }
+  function abrirCarta() {
+    var env = $("c-envelope");
+    if (env.classList.contains("aberto")) return;
+    env.classList.add("aberto");
+    var r = env.getBoundingClientRect(); estourar(r.left + r.width / 2, r.top + r.height / 2, 16);
+    setTimeout(function () { env.classList.add("some"); }, 900);
+    setTimeout(function () {
+      $("c-area").classList.add("escondido");
+      var carta = $("c-carta"); carta.classList.remove("escondido");
+      void carta.offsetWidth; carta.classList.add("ok");
+      var pars = carta.querySelectorAll(".par");
+      pars.forEach(function (p, i) { setTimeout(function () { p.classList.add("ok"); }, 500 + i * (calmo ? 50 : 900)); });
+      setTimeout(function () { $("c-assin").classList.add("ok"); }, 600 + pars.length * (calmo ? 50 : 900));
+    }, 1600);
+  }
+
+  /* fim */
+  $("f-botao").addEventListener("click", function () {
+    var r = this.getBoundingClientRect();
+    estourar(r.left + r.width / 2, r.top + r.height / 2, 26);
+    for (var i = 0; i < 12; i++) setTimeout(flutuar, i * 120);
+  });
+
+  /* ---------- efeitos ---------- */
+  function flutuar() {
+    if (calmo) return;
+    var el = document.createElement("div");
+    var tam = 12 + Math.random() * 22;
+    el.className = "flutua";
+    el.style.left = (Math.random() * 100) + "vw";
+    el.style.width = el.style.height = tam + "px";
+    el.style.setProperty("--dx", (Math.random() * 60 - 30) + "px");
+    el.style.setProperty("--rot", (Math.random() * 40 - 20) + "deg");
+    el.style.setProperty("--op", (0.25 + Math.random() * 0.45).toFixed(2));
+    el.style.animationDuration = (9 + Math.random() * 7) + "s";
+    el.innerHTML = coracaoSvg(CORES[Math.floor(Math.random() * CORES.length)]);
+    $("ceu").appendChild(el);
+    setTimeout(function () { el.remove(); }, 17000);
+  }
+  function estourar(x, y, n) {
+    if (calmo) return;
+    for (var i = 0; i < n; i++) {
+      var el = document.createElement("div");
+      el.className = "estouro";
+      var ang = Math.random() * Math.PI * 2, dist = 50 + Math.random() * 110;
+      el.style.left = x + "px"; el.style.top = y + "px";
+      el.style.setProperty("--x", Math.cos(ang) * dist + "px");
+      el.style.setProperty("--y", Math.sin(ang) * dist - 40 + "px");
+      el.style.setProperty("--s", (0.6 + Math.random() * 0.9).toFixed(2));
+      el.style.setProperty("--r", (Math.random() * 60 - 30) + "deg");
+      el.innerHTML = coracaoSvg(CORES[i % CORES.length]);
+      document.body.appendChild(el);
+      setTimeout((function (e) { return function () { e.remove(); }; })(el), 1400);
+    }
+  }
+  function contarDias() {
+    var el = $("t-dias"), alvo = +el.dataset.alvo;
+    if (!alvo && alvo !== 0) return;
+    var t0 = null, dur = calmo ? 1 : 1800;
+    function passo(t) {
+      if (!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(alvo * e).toLocaleString("pt-BR");
+      if (p < 1) requestAnimationFrame(passo);
+    }
+    requestAnimationFrame(passo);
+  }
+
+  function observarRevelacoes() {
+    var els = document.querySelectorAll(".revela");
+    if (!("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("ok"); }); return; }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add("ok");
+          if (en.target.id === "t-contador") contarDias();
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+    els.forEach(function (e) { obs.observe(e); });
+  }
+
+  function comecar() {
+    var b = $("a-botao").getBoundingClientRect();
+    estourar(b.left + b.width / 2, b.top + b.height / 2, 22);
+    $("abertura").classList.add("fora");
+    document.body.classList.remove("travado");
+    window.scrollTo(0, 0);
+    $("conteudo").classList.add("visivel");
+    $("conteudo").removeAttribute("aria-hidden");
+    setTimeout(function () { $("abertura").style.display = "none"; observarRevelacoes(); }, 700);
+    for (var i = 0; i < 8; i++) setTimeout(flutuar, i * 250);
+  }
+  $("a-botao").addEventListener("click", comecar);
+
+  carregar().then(function (dados) {
+    D = P.completar(dados);
+    montar();
+    setTimeout(function () { $("carregando").classList.add("some"); }, 250);
+    setInterval(function () { if (!document.hidden) flutuar(); }, 2200);
+    for (var i = 0; i < 5; i++) setTimeout(flutuar, i * 400);
+  });
+})();
+</script>
+</body>
+</html>
